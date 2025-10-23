@@ -1,0 +1,67 @@
+/* Container */
+.split-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px;
+    flex-wrap: wrap;
+  }
+  
+  /* Boxes */
+  .weather-box,
+  .task-box {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    flex: 1 1 420px; /* responsive: min width ~420px */
+    max-width: 520px;
+  }
+  
+  /* Make the weather table adapt */
+  .full-width {
+    width: 100%;
+  }
+  
+  /* Center the weather result */
+  .weather-result {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .weather-result img {
+    width: 64px;
+    height: 64px;
+    margin-top: 8px;
+  }
+  
+  /* Task input row */
+  .input-row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .input-row .form-control {
+    flex: 1;
+  }
+  
+  /* Tasks list */
+  .tasks-list {
+    margin-top: 1rem;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  
+  @media (max-width: 900px) {
+    .split-container {
+      padding: 16px;
+      gap: 12px;
+    }
+    .weather-box,
+    .task-box {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+  }
+  

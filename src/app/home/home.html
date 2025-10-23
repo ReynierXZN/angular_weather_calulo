@@ -1,0 +1,88 @@
+<div class="container-fluid vh-100 d-flex p-0">
+  <!-- Left side (Weather) -->
+  <div class="col-md-6 d-flex flex-column justify-content-center align-items-center bg-light p-5">
+    <h1>Search Area for the Weather</h1>
+    <div class="input-group mb-3" style="max-width: 400px;">
+      <input [(ngModel)]="city" placeholder="Enter city name" class="form-control" />
+      <button (click)="getWeather()" class="btn btn-primary">Get Weather</button>
+    </div>
+
+    <div *ngIf="weatherData" class="text-center">
+      <h2>{{ weatherData.location.name }}, {{ weatherData.location.country }}</h2>
+      <p>Temperature: {{ weatherData.current.temperature }} °C</p>
+      <p>Condition: {{ weatherData.current.weather_descriptions[0] }}</p>
+      <img [src]="weatherData.current.weather_icons[0]" alt="Weather icon" />
+    </div>
+
+    <p *ngIf="errorMessage" class="text-danger mt-3">{{ errorMessage }}</p>
+  </div>
+
+  <!-- Right side (Task Manager) -->
+  <div class="col-md-6 d-flex flex-column justify-content-center align-items-center bg-dark text-light p-5">
+    <h2 class="mb-4">Task Manager</h2>
+
+    <!-- ✅ Task Filter -->
+    <div class="btn-group mb-3" role="group" aria-label="Task Filter">
+      <button
+        class="btn btn-outline-light"
+        [class.active]="filter === 'all'"
+        (click)="setFilter('all')"
+      >
+        All
+      </button>
+      <button
+        class="btn btn-outline-light"
+        [class.active]="filter === 'active'"
+        (click)="setFilter('active')"
+      >
+        Active
+      </button>
+      <button
+        class="btn btn-outline-light"
+        [class.active]="filter === 'completed'"
+        (click)="setFilter('completed')"
+      >
+        Completed
+      </button>
+    </div>
+
+    <!-- ✅ Task Input -->
+    <div class="input-group mb-3" style="max-width: 400px;">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter a new task..."
+        [(ngModel)]="newTask"
+        (keyup.enter)="addTask()"
+      />
+      <button class="btn btn-success" (click)="addTask()">Add</button>
+    </div>
+
+    <!-- ✅ Filtered Task List -->
+    <ul class="list-group" style="max-width: 400px; width: 100%;">
+      <li
+        *ngFor="let task of filteredTasks; let i = index"
+        class="list-group-item d-flex justify-content-between align-items-center bg-secondary text-light mb-2 rounded"
+      >
+        <span [ngClass]="{ 'text-decoration-line-through': task.completed }">
+          {{ task.description }}
+        </span>
+        <div>
+          <button class="btn btn-sm btn-outline-light me-2" (click)="toggleTask(i)">
+            {{ task.completed ? 'Undo' : 'Done' }}
+          </button>
+          <button class="btn btn-sm btn-outline-danger" (click)="deleteTask(i)">
+            Delete
+          </button>
+        </div>
+      </li>
+    </ul>
+
+    <!-- ✅ Task Stats -->
+    <div class="mb-4 text-center mt-3">
+      <p class="mb-1">Total Tasks: {{ tasks.length }}</p>
+      <p class="mb-1">Completed: {{ completedCount }}</p>
+      <p>Remaining: {{ remainingCount }}</p>
+    </div>
+  </div>
+</div>
