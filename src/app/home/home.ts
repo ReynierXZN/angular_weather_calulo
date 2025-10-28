@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Weather } from '../services/weather';
+import { WeatherService } from '../services/weather'; // ✅ Corrected import name
 
 @Component({
   selector: 'app-home',
@@ -28,7 +28,8 @@ export class Home implements OnInit {
   completedCount: number = 0;
   remainingCount: number = 0;
 
-  constructor(private weatherService: Weather) {}
+  // ✅ Correct dependency injection
+  constructor(private weatherService: WeatherService) {}
 
   ngOnInit() {
     this.updateCounts();
@@ -46,18 +47,18 @@ export class Home implements OnInit {
     }
 
     this.weatherService.getWeather(this.city.trim()).subscribe({
-      next: (data) => {
-        if (data && (data.current || data.location)) {
+      next: (data: any) => { // ✅ Explicit typing
+        if (data && data.weather && data.main) {
           this.weatherData = data;
         } else if (data && data.error) {
-          this.errorMessage = data.error.info || 'City Not found or API Error';
+          this.errorMessage = data.error.message || 'City not found or API error.';
         } else {
-          this.errorMessage = 'City Not found or API Error';
+          this.errorMessage = 'City not found or API error.';
         }
       },
-      error: (err) => {
+      error: (err: any) => { // ✅ Explicit typing
         console.error('Weather API error:', err);
-        this.errorMessage = 'City Not found or API Error';
+        this.errorMessage = 'City not found or API error.';
       }
     });
   }
